@@ -15,5 +15,5 @@ const fetch_appData = async () => {
   console.log(app);
 };
 
-// fetch_reviews();
-fetch_appData();
+fetch_reviews();
+// fetch_appData();

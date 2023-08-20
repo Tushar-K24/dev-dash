@@ -1,10 +1,11 @@
-require("dotenv").config();
-
-const { serverUtility } = require("./utils");
+const { serverUtility, createTable } = require("./utils");
 
 const main = async () => {
   // initialize app
-  //   require("./models");
+  const models = require("./models");
+  createTable("developers", models.developers);
+  createTable("apps", models.apps);
+  createTable("reviews", models.reviews);
 
   const { app, start } = await serverUtility.initializeApp();
 

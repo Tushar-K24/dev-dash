@@ -1,3 +1,5 @@
+const db = require("./databaseUtility");
+
 const formatAttributes = (attributes) => {
   const joinedAttributes = [];
   attributes.forEach((attribute) => {
@@ -7,12 +9,30 @@ const formatAttributes = (attributes) => {
   return attributeString;
 };
 
-const createTable = (name, attributes) => {
-  const query = `CREATE TABLE ${name.toLowerCase()} (${formatAttributes(
+const createTable = async (name, attributes) => {
+  const formattedName = name.toLowerCase();
+  const createTableQuery = `CREATE TABLE ${formattedName} (${formatAttributes(
     attributes
   )});`;
-  console.log(query);
+
+  const existQuery = `SELECT EXISTS (
+      SELECT 1
+      FROM information_schema.tables
+      WHERE table_name = '${formattedName}'
+    );`;
+  let res = await db.query(existQuery);
+  const exists = res.rows[0].exists;
+  if (exists) {
+    console.log(`${formattedName}: table already exists`);
+    return;
+  } else {
+    try {
+      res = await db.query("CREATE EXTENSION hstore");
+    } catch (err) {}
+    console.log(`Creating table ${formattedName}...`);
+    await db.query(createTableQuery);
+    console.log("table created!");
+  }
 };
 
-const appAttributes = require("../models/appModel");
-createTable("apps", appAttributes);
+module.exports = { createTable };

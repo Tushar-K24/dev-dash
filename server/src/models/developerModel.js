@@ -1,11 +1,11 @@
 const attributes = [
-  ["id", "varchar(50)"],
+  ["id", "varchar(50)", "PRIMARY KEY"],
   ["developer", "varchar(255)"],
   ["email", "varchar(50)"],
   ["website", "varchar(50)"],
   ["address", "text"],
-  ["privacyPolicy", "text"],
-  ["internalID", "varchar(50)"],
+  ["privacy_policy", "text"],
+  ["internal_id", "varchar(50)"],
 ];
 // developer: 'Rockstar Games',
 // developerId: '7086639890153802127',
